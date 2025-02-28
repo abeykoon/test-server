@@ -59,7 +59,7 @@ public type PlatformServiceReq record {
     Endpoint[] endpoints;
 };
 
-service http:Service /external\-service on new http:Listener(port) {
+service http:Service /external\-service on new http:Listener(80) {
     resource function post card(PlatformServiceReq request) returns json|error {
         log:printInfo("Received request for /card" );
         if isDebugEnabled {
