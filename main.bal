@@ -2,6 +2,7 @@ import ballerina/http;
 import ballerina/log;
 
 configurable int port = 80;
+configurable boolean isDebugEnabled = ?;
 
 
 // Define an enum for provider types
@@ -61,8 +62,10 @@ public type PlatformServiceReq record {
 service http:Service /external\-service on new http:Listener(port) {
     resource function post card(PlatformServiceReq request) returns json|error {
         log:printInfo("Received request for /card" );
-        json requestJson = request.toJson();
-        log:printInfo(requestJson.toJsonString());
+        if isDebugEnabled {
+            json requestJson = request.toJson();
+            log:printDebug("DEBUG: Request received for /card: " + requestJson.toJsonString());
+        }
         json message = {status:"success"};
         return message;
     }
